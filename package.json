@@ -1,0 +1,23 @@
+{
+  "name": "pre-entrega-c26132-lucasmaximilianoperez",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "PreEntrega",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milu-77/Pre-Entrega-C26132-LucasMaximilianoPerez.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/milu-77/Pre-Entrega-C26132-LucasMaximilianoPerez/issues"
+  },
+  "homepage": "https://github.com/milu-77/Pre-Entrega-C26132-LucasMaximilianoPerez#readme"
+}
