@@ -23,15 +23,11 @@ const main = async () => {
     }
     else if (method === 'POST' && path === 'products') {
         try {
-
             const [title, price, category] = args;
             if (!title) throw new Error("El título es obligatorio para el POST.");
             if (!price) throw new Error("El Precio es obligatorio para el POST.");
             if (!category) throw new Error("La Categoria es obligatorio para el POST.");
-
             await createProduct(new Product({ title: title, price: price, category: category }));
-
-
         } catch (err) {
             console.error("Error de entrada:", err.message);
         }
@@ -45,7 +41,6 @@ const main = async () => {
         } catch (err) {
             console.error("Error de entrada:", err.message);
         }
-
     }
     else {
         console.log("Comando no reconocido");
