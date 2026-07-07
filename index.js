@@ -15,6 +15,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css";
+const JS_URLS = [
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js"
+];
 const swaggerOptions = {
 
   definition: {
@@ -68,7 +73,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
   swaggerOptions: {
     operationsSorter: 'method',
     persistAuthorization: true,
-  }
+  },customCssUrl: CSS_URL,   
+    customJs: JS_URLS
 }));
 
 app.use((req, res, next) => {
