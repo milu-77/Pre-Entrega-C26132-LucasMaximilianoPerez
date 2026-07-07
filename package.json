@@ -2,12 +2,12 @@
   "name": "pre-entrega-c26132-lucasmaximilianoperez",
   "version": "1.0.0",
   "type": "module",
-  "description": "PreEntrega",
+  "description": "Entrega",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
-
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,20 @@
   "bugs": {
     "url": "https://github.com/milu-77/Pre-Entrega-C26132-LucasMaximilianoPerez/issues"
   },
-  "homepage": "https://github.com/milu-77/Pre-Entrega-C26132-LucasMaximilianoPerez#readme"
+  "homepage": "https://github.com/milu-77/Pre-Entrega-C26132-LucasMaximilianoPerez#readme",
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "firebase": "^12.15.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.11.0",
+    "serve-favicon": "^2.5.1",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }

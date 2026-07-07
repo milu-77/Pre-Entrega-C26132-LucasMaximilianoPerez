@@ -1,50 +1,77 @@
-import { getAllProducts, getProductById, createProduct, deleteProducts } from './src/controllers/productControllers.js';
-import { Product } from './src/models/Product.js';
-const [, , method, path, ...args] = process.argv;
-
-// getAllProducts();
-// getProductById(1);
-// const producto = new Product();
-// createProduct(producto);
-// deleteProducts(1);
-
-const main = async () => {
-    if (method === 'GET' && path === 'products') {
-        await getAllProducts();
-    }
-    else if (method === 'GET' && path.startsWith('products/')) {
-        try {
-            const id = path.split('/')[1];
-            if (!id) throw new Error("El ID es obligatorio para el GET BY ID.");
-            await getProductById(id);
-        } catch (err) {
-            console.error("Error de entrada:", err.message);
-        }
-    }
-    else if (method === 'POST' && path === 'products') {
-        try {
-            const [title, price, category] = args;
-            if (!title) throw new Error("El título es obligatorio para el POST.");
-            if (!price) throw new Error("El Precio es obligatorio para el POST.");
-            if (!category) throw new Error("La Categoria es obligatorio para el POST.");
-            await createProduct(new Product({ title: title, price: price, category: category }));
-        } catch (err) {
-            console.error("Error de entrada:", err.message);
-        }
-    }
-    else if (method === 'DELETE' && path.startsWith('products/')) {
-        try {
-            const id = path.split('/')[1];
-            if (!id) throw new Error("El ID es obligatorio para el DELETE.");
-            await deleteProducts(id);
-
-        } catch (err) {
-            console.error("Error de entrada:", err.message);
-        }
-    }
-    else {
-        console.log("Comando no reconocido");
-    }
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import morgan from 'morgan';
+import favicon from 'serve-favicon';
+import path from 'path';
+ import productsRouter from './src/routes/products.routes.js';
+ import routerAuth from './src/routes/auth.routes.js';
+ import { authentication } from './src/middlewares/authentication.js';
+ import { fileURLToPath } from 'url';
+ import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+ 
+ 
+dotenv.config(); 
+const app = express();
+const PORT = process.env.PORT || 3000; 
+ const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const swaggerOptions = {
+     
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API de Libros - Mi Tienda',
+      version: '1.0.0',
+      description: 'Documentación de los endpoints de mi e-commerce con autenticación JWT y Firestore',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+      },
+    ],
+     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+  },
+   apis: ['./src/routes/*.js', './index.js'], 
 };
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use(cors());
+app.use(express.json());
+app.use(morgan('dev'));
+app.use(favicon(path.join(process.cwd(), 'public', 'favicon.ico')));
+// app.use(authentication);
+ app.get('/', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'public', 'main.html'));
+ });
+app.use('/api/products', productsRouter);
+app.use('/auth' , routerAuth); 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
+    swaggerOptions: {
+      operationsSorter: 'method',
+      persistAuthorization: true,  
+    }
+  }));
 
-main();
+
+
+
+
+
+app.use((req, res, next) => {
+    res.status(404).json({
+        status: 'error',
+        message: 'Ruta no encontrada (404)'
+    });
+});  
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});

@@ -1,0 +1,63 @@
+ 
+# 1. Puerto del servidor
+@hostname = http://localhost:3000
+
+# 2. Después del login, pega el token aquí:
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3ODMzOTE3NjksImV4cCI6MTc4MzM5NTM2OX0.IXAqO3OBKfBnLMNUxx8lVdCn7-qCJWTKGWiyQu5DKXM
+
+# 3. Para probar GetById o Delete, pega un ID real aquí:
+@productoId = 45VDV8VNcIuWESe7buDV
+# 4. Para probar el filtro, configura estos valores:
+@categoria = fantasia
+@precioMax = 50000
+
+
+
+### 00-login 
+POST {{hostname}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "123456"
+}
+
+### 01-home
+GET {{hostname}}/
+
+### 02-all
+GET {{hostname}}/api/products
+
+### 03-id
+GET {{hostname}}/api/products/{{productoId}}
+
+### 04-filter
+GET {{hostname}}/api/products/filter?category={{categoria}}&price={{precioMax}}
+
+### 05-create (Token)
+POST {{hostname}}/api/products/create
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Crónicas marcianas",
+    "price": 21500,
+    "category": "ciencia-ficcion",
+    "stock": 14,
+    "description": "Una deslumbrante colección de relatos de Ray Bradbury que narra la llegada del ser humano a Marte y la progresiva colonización del planeta, reflejando las ansiedades y la naturaleza de la humanidad."
+    
+  }
+
+### 06 put (Token)
+PUT {{hostname}}/api/products/{{productoId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "price": 49000,
+    "stock": 100
+}
+
+### 07 delete (Token)
+DELETE {{hostname}}/api/products/{{productoId}}
+Authorization: Bearer {{token}}
