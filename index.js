@@ -50,8 +50,8 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use(cors({
   origin: (origin, callback) => {
-    // Permite peticiones sin origen (como Postman o Swagger) o las que vengan de tu propio servidor
-    if (!origin || origin === `http://localhost:${process.env.PORT || 3000}`) {
+    // Lista de orígenes permitidos (Localhost y cualquier subdominio de Vercel de tu proyecto)
+    if (!origin || origin.startsWith('http://localhost') || origin.includes('vercel.app')) {
       callback(null, true);
     } else {
       callback(new Error("No permitido por CORS"));
