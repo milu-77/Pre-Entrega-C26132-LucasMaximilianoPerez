@@ -1,23 +1,32 @@
-﻿# Product Management CLI - TechLab Challenge
+﻿ # Pre-Entrega: API REST de Productos con Express y Firestore
 
-Este proyecto consiste en una herramienta de línea de comandos (CLI) desarrollada en **Node.js** para la gestión de productos. La aplicación interactúa de forma asíncrona con la API de [FakeStore](https://fakestoreapi.com/) para realizar operaciones CRUD básicas directamente desde la terminal.
+¡Bienvenido al repositorio de la Pre-Entrega del proyecto! Esta es una API REST desarrollada con **Node.js** y **Express**, integrada con **Google Cloud Firestore** como base de datos y completamente documentada utilizando **Swagger**.
 
-## 🚀 Características
+El sistema cuenta con persistencia de datos real, validaciones de seguridad mediante middlewares, manejo global de errores con bloques `try/catch` y un sistema de filtrado dinámico de alta versatilidad.
 
-- **Consulta Global:** Obtención de la lista completa de productos.
-- **Consulta Específica:** Búsqueda de productos por su ID único.
-- **Creación de Productos:** Capacidad para dar de alta nuevos productos enviando datos a la API.
-- **Eliminación de Productos:** Remoción de productos mediante peticiones DELETE.
-- **Arquitectura MVC:** Código organizado de forma escalable separando modelos, controladores y lógica de rutas.
+---
 
-## 🛠️ Requisitos Previos
+## 🚀 Características Principales
 
-- [Node.js](https://nodejs.org/).
-- Un gestor de paquetes como `npm`.
+*   **Arquitectura Limpia:** Separación de responsabilidades clara utilizando Rutas, Controladores y Servicios.
+*   **Filtrado 100% Dinámico:** Endpoint optimizado para recibir múltiples parámetros simultáneos por `query params` (categoría, precio máximo, stock mínimo, nombre) procesados de forma automatizada mediante bucles dinámicos.
+*   **Persistencia en la Nube:** Conexión e interacción directa con colecciones de Firestore.
+*   **Middlewares de Seguridad:** Rutas protegidas que requieren autenticación previa antes de realizar operaciones de escritura o eliminación (`POST`, `PUT`, `DELETE`).
+*   **Documentación Interactiva:** Implementación completa de Swagger para probar todos los endpoints directamente desde el navegador de manera visual.
 
-## 📦 Instalación
+---
 
-1. Clona el repositorio o descarga los archivos del proyecto.
-2. Navega hasta la carpeta raíz del proyecto:
-   ```bash
-   cd pre-entrega-c26132-lucasmaximilianoperez
+## 🛠️ Tecnologías Utilizadas
+
+*   **Runtime:** Node.js (Versión 18 o superior)
+*   **Framework Principal:** Express.js
+*   **Base de Datos:** Google Cloud Firestore (Firebase Admin SDK)
+*   **Documentación:** Swagger UI Express & Swagger JSDoc
+*   **Variables de Entorno:** Dotenv (Manejo seguro de credenciales)
+*   **Monitoreo en Desarrollo:** Nodemon
+
+---
+
+ 
+
+ 
