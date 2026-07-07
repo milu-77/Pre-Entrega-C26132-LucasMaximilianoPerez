@@ -31,7 +31,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: 'https://final-c26132-lmp-git-main-lucas-lmps-projects.vercel.app',
       },
     ],
     components: {
@@ -48,7 +48,18 @@ const swaggerOptions = {
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use(cors( ));
+app.use(cors({
+  origin: (origin, callback) => {
+    // Permite peticiones sin origen (como Postman o Swagger) o las que vengan de tu propio servidor
+    if (!origin || origin === `http://localhost:${process.env.PORT || 3000}`) {
+      callback(null, true);
+    } else {
+      callback(new Error("No permitido por CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(favicon(path.join(process.cwd(), 'public', 'favicon.ico')));
