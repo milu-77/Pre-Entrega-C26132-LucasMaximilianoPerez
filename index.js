@@ -71,11 +71,12 @@ app.get('/', (req, res) => {
 app.use('/api/products', productsRouter);
 app.use('/auth', routerAuth);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
-  swaggerOptions: {
-    operationsSorter: 'method',
-    persistAuthorization: true,
-  },customCssUrl: CSS_URL,   
-    customJs: JS_URLS
+    swaggerOptions: {
+      operationsSorter: 'method',
+      persistAuthorization: true,
+    },  
+    customCssUrl: CSS_URL,    
+    customJs: JS_URLS         
 }));
 
 app.use((req, res, next) => {
