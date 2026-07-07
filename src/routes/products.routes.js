@@ -3,11 +3,8 @@ import * as productController from '../controllers/product.controllers.js'
 import { authentication } from '../middlewares/authentication.js'
 
 const router = express.Router();
-router.get('/filter', (req, res) => {
-  const category = req.query.category;
-  const price = req.query.price;
-  res.send(`Producto filtrado por ${category} y ${price}  `);
-});
+ 
+
 /**
  * @swagger
  * /api/products:
@@ -26,6 +23,7 @@ router.get('/filter', (req, res) => {
  *         description: Token inválido o expirado
  */
 router.get('/', productController.getAllProducts);
+
 /**
  * @swagger
  * /api/products/rubicon:
@@ -44,8 +42,55 @@ router.get('/', productController.getAllProducts);
  *       403:
  *         description: Token inválido o expirado
  */
-
 router.delete('/rubicon', authentication, productController.clearProductsCollection);
+
+/**
+ * @swagger
+ * /api/products/filter:
+ *   get:
+ *     tags:
+ *       - Productos
+ *     summary: Filtra productos de forma dinámica por cualquier criterio
+ *     description: Permite enviar uno o múltiples parámetros en la URL (?category=...&price=...) para filtrar la lista de productos en el sistema.
+ *     parameters:
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *         description: Categoría del producto (ej. ciencia-ficcion)
+ *         example: ciencia-ficcion
+ *       - in: query
+ *         name: price
+ *         schema:
+ *           type: number
+ *         description: Límite de precio máximo (devuelve productos con precio menor o igual)
+ *         example: 25000
+ *       - in: query
+ *         name: stock
+ *         schema:
+ *           type: number
+ *         description: Stock mínimo requerido disponible
+ *         example: 10
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Coincidencia exacta por nombre del producto
+ *         example: Crónicas marcianas
+ *     responses:
+ *       200:
+ *         description: Lista de productos filtrados obtenida con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       500:
+ *         description: Error interno al intentar procesar el filtrado de productos
+ */
+router.get('/filter',productController.getProductsByFilters)
+
 /**
  * @swagger
  * /api/products/{id}:
@@ -70,8 +115,6 @@ router.delete('/rubicon', authentication, productController.clearProductsCollect
  *       404:
  *         description: No se encontró ningún producto con ese ID
  */
-
-
 router.get('/:id', productController.getProductById);
 
 /**
@@ -121,7 +164,6 @@ router.get('/:id', productController.getProductById);
  *       500:
  *         description: Error interno del servidor o Firestore no responde
  */
-
 router.post('/create', authentication, productController.createProduct);
 
 /**
@@ -155,6 +197,7 @@ router.post('/create', authentication, productController.createProduct);
  *         description: No se encontró ningún producto con el ID especificado
  */
 router.delete('/:id', authentication, productController.deleteProduct);
+
 /**
  * @swagger
  * /api/products/{id}:

@@ -1,6 +1,6 @@
 
 import * as model from '../models/firestore.model.js'
-const collection= 'products';
+const collection = 'products';
 
 const formatProductStructure = (product) => {
     if (!product) return null;
@@ -17,40 +17,67 @@ const formatProductStructure = (product) => {
 
 
 export async function getAllProducts() {
-     const products = await model.readDocuments(collection);
-   return products.map(product => formatProductStructure(product));
+    const products = await model.readDocuments(collection);
+    return products.map(product => formatProductStructure(product));
 }
 
 export const getProductById = async (id) => {
-    const product =await model.readDocument(collection,id);
+    const product = await model.readDocument(collection, id);
     if (product && (typeof product.exists === 'function' ? product.exists() : product)) {
-        
-        return formatProductStructure ( product);
-    }else{
+
+        return formatProductStructure(product);
+    } else {
         console.warn(` No se encontró ningún producto con el ID: ${id}`);
-    return null;
+        return null;
     }
-     
-    
+
+
 
 };
 
 export const createProduct = async (productData) => {
-   return model.createDocument(collection,   productData) 
+    return model.createDocument(collection, productData)
 };
 
 export const updateProduct = async (id, data) => {
-   model.updateDocument(collection, id, data) 
+    model.updateDocument(collection, id, data)
 };
 
 export const deleteProduct = async (id) => {
-    model.deleteDocument(collection,id);
+    model.deleteDocument(collection, id);
 };
 
 export const clearProductsCollection = async () => {
     model.clearDocument(collection)
 };
 
+export const getProductsByFilters = async (filters) => {
+    const products = await model.readDocuments(collection);
+    const filteredProducts = products.filter(product => {
+        for (const key in filters) {
+            const filterValue = filters[key];
+            if (filterValue === undefined || filterValue === '') continue;
+            if (key === 'price') {
+                if (product.price > Number(filterValue)) {
+                    return false;
+                }
+                continue;
+            }
+            if (key === 'stock') {
+                if (product.stock < Number(filterValue)) {
+                    return false;
+                }
+                continue;
+            }
+            if (product[key] !== filterValue) {
+                return false;
+            }
+        }
+        return true;
+    });
+
+    return filteredProducts.map(product => formatProductStructure(product));
+};
 
 
 
