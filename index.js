@@ -63,6 +63,7 @@ app.use(cors({
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(favicon(path.join(process.cwd(), 'public', 'favicon.ico')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 // app.use(authentication);
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, 'public', 'main.html'));
